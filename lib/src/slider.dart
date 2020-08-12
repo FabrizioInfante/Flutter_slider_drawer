@@ -24,28 +24,31 @@ class SliderMenuContainer extends StatefulWidget {
   final EdgeInsets appBarPadding;
   final SliderOpen sliderOpen;
 
-  const SliderMenuContainer({
-    Key key,
-    this.sliderMenu,
-    this.sliderMain,
-    this.sliderAnimationTimeInMilliseconds = 200,
-    this.sliderMenuOpenOffset = 265,
-    this.drawerIconColor = Colors.black,
-    this.drawerIcon,
-    this.isTitleCenter = true,
-    this.trailing,
-    this.appBarColor = Colors.white,
-    this.appBarPadding,
-    this.title,
-    this.drawerIconSize = 27,
-    this.appBarHeight,
-    this.sliderMenuCloseOffset = 0,
-    this.sliderOpen = SliderOpen.LEFT_TO_RIGHT,
-    this.isShadow = false,
-    this.shadowColor = Colors.grey,
-    this.shadowBlurRadius = 25.0,
-    this.shadowSpreadRadius = 5.0,
-  })  : assert(sliderMenu != null),
+  final bool showAppBar;
+
+  const SliderMenuContainer(
+      {Key key,
+      this.sliderMenu,
+      this.sliderMain,
+      this.sliderAnimationTimeInMilliseconds = 200,
+      this.sliderMenuOpenOffset = 265,
+      this.drawerIconColor = Colors.black,
+      this.drawerIcon,
+      this.isTitleCenter = true,
+      this.trailing,
+      this.appBarColor = Colors.white,
+      this.appBarPadding,
+      this.title,
+      this.drawerIconSize = 27,
+      this.appBarHeight,
+      this.sliderMenuCloseOffset = 0,
+      this.sliderOpen = SliderOpen.LEFT_TO_RIGHT,
+      this.isShadow = false,
+      this.shadowColor = Colors.grey,
+      this.shadowBlurRadius = 25.0,
+      this.shadowSpreadRadius = 5.0,
+      this.showAppBar = false})
+      : assert(sliderMenu != null),
         assert(sliderMain != null),
         super(key: key);
 
@@ -154,27 +157,29 @@ class SliderMenuContainerState extends State<SliderMenuContainer>
         ),
       ],
 
-      /// Display Main Screen
-      AnimatedContainer(
-          duration:
-              Duration(milliseconds: widget.sliderAnimationTimeInMilliseconds),
-          curve: Curves.easeIn,
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.white,
-          transform: getTranslationValues(widget.sliderOpen),
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: widget.appBarPadding ?? const EdgeInsets.only(top: 24),
-                color: widget.appBarColor,
-                child: Row(
-                  children: appBar(),
+      if (widget.showAppBar) ...[
+        AnimatedContainer(
+            duration: Duration(
+                milliseconds: widget.sliderAnimationTimeInMilliseconds),
+            curve: Curves.easeIn,
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.white,
+            transform: getTranslationValues(widget.sliderOpen),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding:
+                      widget.appBarPadding ?? const EdgeInsets.only(top: 24),
+                  color: widget.appBarColor,
+                  child: Row(
+                    children: appBar(),
+                  ),
                 ),
-              ),
-              Expanded(child: widget.sliderMain),
-            ],
-          )),
+                Expanded(child: widget.sliderMain),
+              ],
+            )),
+      ],
     ]));
   }
 
