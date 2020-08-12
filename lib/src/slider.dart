@@ -180,6 +180,22 @@ class SliderMenuContainerState extends State<SliderMenuContainer>
               ],
             )),
       ],
+
+      if (!widget.showAppBar) ...[
+        AnimatedContainer(
+            duration: Duration(
+                milliseconds: widget.sliderAnimationTimeInMilliseconds),
+            curve: Curves.easeIn,
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.white,
+            transform: getTranslationValues(widget.sliderOpen),
+            child: Column(
+              children: <Widget>[
+                Expanded(child: widget.sliderMain),
+              ],
+            )),
+      ],
     ]));
   }
 
